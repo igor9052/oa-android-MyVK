@@ -18,6 +18,10 @@ public class User implements Parcelable{
     @SerializedName("photo_100")
     private String photo100;
 
+    public User() {
+
+    }
+
     public int getUserId() {
         return userId;
     }
