@@ -1,4 +1,4 @@
-package ua.com.igorka.oa.android.myvk.api.photos1;
+package ua.com.igorka.oa.android.myvk.api.photos;
 
 import android.os.Parcel;
 

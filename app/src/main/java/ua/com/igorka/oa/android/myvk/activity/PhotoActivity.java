@@ -24,7 +24,7 @@ import java.util.List;
 
 import ua.com.igorka.oa.android.myvk.R;
 import ua.com.igorka.oa.android.myvk.api.photos.PhotoGetResponse;
-import ua.com.igorka.oa.android.myvk.api.photos1.PhotosGetRequest;
+import ua.com.igorka.oa.android.myvk.api.photos.PhotosGetRequest;
 import ua.com.igorka.oa.android.myvk.data.Photo;
 import ua.com.igorka.oa.android.myvk.helper1.AppSettings;
 import ua.com.igorka.oa.android.myvk.service.RequestService;
