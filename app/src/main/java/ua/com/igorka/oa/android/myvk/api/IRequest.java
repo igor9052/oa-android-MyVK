@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * Created by Igor Kuzmenko on 27.02.2015.
+ *
  */
 public interface IRequest extends Parcelable {
     String getRequest();

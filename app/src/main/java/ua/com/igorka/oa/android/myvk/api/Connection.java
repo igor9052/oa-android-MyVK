@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
  * Created by Igor Kuzmenko on 27.02.2015.
+ * Use this class to make requests
  */
 public class Connection<T1 extends IRequest, T2 extends IResponse> implements IConnection {
 
@@ -43,16 +43,13 @@ public class Connection<T1 extends IRequest, T2 extends IResponse> implements IC
             connection = (HttpURLConnection) url.openConnection();
             InputStream in = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (connection != null)
                 connection.disconnect();
         }

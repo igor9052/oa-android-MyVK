@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         SharedPreferences.Editor editor = getSharedPreferences(AppSettings.General.SHARED_PREFERENCES_FILE_NAME, MODE_PRIVATE).edit();
         editor.putInt(AppSettings.VkIntent.EXTRA_USER_ID, AppSettings.General.DEFAULT_USER_ID_VALUE);
         editor.putInt(AppSettings.General.CURRENT_USER, AppSettings.General.DEFAULT_USER_ID_VALUE);
-        editor.commit();
+        editor.apply();
         AppSettings.setPreferences(getSharedPreferences(AppSettings.General.SHARED_PREFERENCES_FILE_NAME, MODE_PRIVATE));
     }
 }

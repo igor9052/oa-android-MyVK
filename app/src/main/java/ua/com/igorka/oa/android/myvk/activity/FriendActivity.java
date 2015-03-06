@@ -34,13 +34,11 @@ import ua.com.igorka.oa.android.myvk.service.RequestService;
 
 public class FriendActivity extends ActionBarActivity {
 
-    private static final String TAG = "FriendActivity";
-    private static List<User> sUserList = null;
     private BroadcastReceiver friendsReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(AppSettings.VkIntent.EXTRA_RESPONSE)) {
-                sUserList = intent.getParcelableArrayListExtra(AppSettings.VkIntent.EXTRA_RESPONSE_ITEMS_LIST);
+                List<User> sUserList = intent.getParcelableArrayListExtra(AppSettings.VkIntent.EXTRA_RESPONSE_ITEMS_LIST);
                 Log.i("Broadcast", "Broadcast is working");
                 friendAdapter.clear();
                 friendAdapter.addAll(sUserList);

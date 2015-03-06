@@ -13,6 +13,7 @@ import ua.com.igorka.oa.android.myvk.helper.AppSettings;
 
 /**
  * Created by Igor Kuzmenko on 03.03.2015.
+ * Service do request and send local broadcast message with result.
  */
 public class RequestService extends IntentService {
 
@@ -30,7 +31,7 @@ public class RequestService extends IntentService {
 
     private void doRequest(Intent intent) {
         IRequest request = intent.getParcelableExtra(AppSettings.VkIntent.EXTRA_REQUEST);
-        IResponse response = (IResponse) intent.getSerializableExtra(AppSettings.VkIntent.EXTRA_RESPONSE);
+        IResponse response =  intent.getParcelableExtra(AppSettings.VkIntent.EXTRA_RESPONSE);
         IConnection<IRequest, IResponse> connection = new Connection<>(request, response);
         response = connection.sendRequest();
         Intent resultIntent = new Intent();
