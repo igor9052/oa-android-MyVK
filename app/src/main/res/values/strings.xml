@@ -9,4 +9,12 @@
     <string name="audios">Audios</string>
     <string name="groups">Groups</string>
     <string name="title_activity_friend">FriendActivity</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+    <string name="text_wall_photos">wall photos</string>
+    <string name="text_profile_photos">profile photos</string>
+    <string name="text_saved_photos">saved photos</string>
+    <string name="text_set_id">Set ID</string>
+    <string name="title_wall_photos">Wall photos</string>
+    <string name="title_profile_photos">Profile photos</string>
+    <string name="title_saved_photos">Saved photos</string>
 </resources>

@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ua.com.igorka.oa.android.myvk.activity.PhotoActivity">
+    <item
+        android:id="@+id/action_wall_photos"
+        android:orderInCategory="100"
+        android:title="@string/text_wall_photos"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_profile_photos"
+        android:orderInCategory="100"
+        android:title="@string/text_profile_photos"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_saved_photos"
+        android:orderInCategory="100"
+        android:title="@string/text_saved_photos"
+        app:showAsAction="never" />
+</menu>

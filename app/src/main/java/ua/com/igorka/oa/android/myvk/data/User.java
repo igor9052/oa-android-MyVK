@@ -5,8 +5,19 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class User implements Parcelable{
+public class User implements Parcelable {
 
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
     @SerializedName("id")
     private int userId;
     @SerializedName("first_name")
@@ -22,40 +33,48 @@ public class User implements Parcelable{
 
     }
 
+    private User(Parcel in) {
+        userId = in.readInt();
+        firstName = in.readString();
+        lastName = in.readString();
+        photo200Orig = in.readString();
+        photo100 = in.readString();
+    }
+
     public int getUserId() {
         return userId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhoto200Orig() {
-        return photo200Orig;
-    }
-
-    public String getPhoto100() {
-        return photo100;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    public String getPhoto200Orig() {
+        return photo200Orig;
+    }
+
     public void setPhoto200Orig(String photo200Orig) {
         this.photo200Orig = photo200Orig;
+    }
+
+    public String getPhoto100() {
+        return photo100;
     }
 
     public void setPhoto100(String photo100) {
@@ -86,24 +105,4 @@ public class User implements Parcelable{
         dest.writeString(photo200Orig);
         dest.writeString(photo100);
     }
-
-    private User(Parcel in) {
-        userId = in.readInt();
-        firstName = in.readString();
-        lastName = in.readString();
-        photo200Orig = in.readString();
-        photo100 = in.readString();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }

@@ -13,21 +13,28 @@ import java.net.URL;
 /**
  * Created by Igor Kuzmenko on 27.02.2015.
  */
-public class Connection implements IConnection {
+public class Connection<T1 extends IRequest, T2 extends IResponse> implements IConnection {
 
-    private IRequest mRequest;
+    private T1 mRequest;
+    private T2 mResponse;
 
-    public Connection(IRequest request) {
+    public Connection(T1 request, T2 response) {
         mRequest = request;
+        mResponse = response;
     }
 
     @Override
-    public IRequest request() {
+    public T1 request() {
         return mRequest;
     }
 
     @Override
-    public String response() {
+    public T2 sendRequest() {
+        mResponse.setResponse(doRequest());
+        return mResponse;
+    }
+
+    private String doRequest() {
         Log.i("REQUEST/" + mRequest.getClass().getSimpleName(), mRequest.getRequest());
         HttpURLConnection connection = null;
         StringBuilder response = new StringBuilder();
@@ -51,6 +58,4 @@ public class Connection implements IConnection {
         }
         return response.toString();
     }
-
-
 }

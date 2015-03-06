@@ -1,67 +1,103 @@
 package ua.com.igorka.oa.android.myvk.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ua.com.igorka.oa.android.myvk.R;
-import ua.com.igorka.oa.android.myvk.api.Connection;
-import ua.com.igorka.oa.android.myvk.api.FriendsgetRequest;
-import ua.com.igorka.oa.android.myvk.api.FriendsgetResponse;
-import ua.com.igorka.oa.android.myvk.api.IConnection;
-import ua.com.igorka.oa.android.myvk.api.IResponse;
+import ua.com.igorka.oa.android.myvk.api.IRequest;
+import ua.com.igorka.oa.android.myvk.api.friends.FriendsGetRequest;
+import ua.com.igorka.oa.android.myvk.api.friends.FriendsGetResponse;
 import ua.com.igorka.oa.android.myvk.data.User;
+import ua.com.igorka.oa.android.myvk.helper.AppSettings;
+import ua.com.igorka.oa.android.myvk.service.RequestService;
 
 
 public class FriendActivity extends ActionBarActivity {
 
-    private FriendAdapter friendAdapter;
+    private static final String TAG = "FriendActivity";
     private static List<User> sUserList = null;
+    private BroadcastReceiver friendsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(AppSettings.VkIntent.EXTRA_RESPONSE)) {
+                sUserList = intent.getParcelableArrayListExtra(AppSettings.VkIntent.EXTRA_RESPONSE_ITEMS_LIST);
+                Log.i("Broadcast", "Broadcast is working");
+                friendAdapter.clear();
+                friendAdapter.addAll(sUserList);
+            }
+        }
+    };
+    private FriendAdapter friendAdapter;
+    private LocalBroadcastManager broadcastManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
-        ListView friendList;
+        broadcastManager = LocalBroadcastManager.getInstance(getApplication());
+
+        final ListView friendList;
         friendAdapter = new FriendAdapter(this, new ArrayList<User>());
         friendList = (ListView) findViewById(R.id.friend_listview);
         friendList.setAdapter(friendAdapter);
 
-        if (sUserList == null){
-            AsyncTask<Void, Void, List<User>> asyncTask = new AsyncTask<Void, Void, List<User>>() {
-                @Override
-                protected List<User> doInBackground(Void... params) {
-                    return getFriends();
-                }
+        friendList.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                User user = (User) friendList.getItemAtPosition(position);
+                FriendsGetRequest request = new FriendsGetRequest();
+                AppSettings.getPreferences().edit().putInt(AppSettings.General.CURRENT_USER, user.getUserId()).commit();
+                request.addParam(FriendsGetRequest.USER_ID, String.valueOf(user.getUserId()));
+                startService(initFriendsGetRequestIntent(request));
+            }
+        });
+        startService(initFriendsGetRequestIntent(null));
+    }
 
-                @Override
-                protected void onPostExecute(List<User> users) {
-                    FriendActivity.sUserList = users;
-                    friendAdapter.addAll(sUserList);
-                }
-            }.execute();
+    private Intent initFriendsGetRequestIntent(IRequest request) {
+        int userId = AppSettings.getPreferences().getInt(AppSettings.General.CURRENT_USER, 0);
+        FriendsGetResponse response = new FriendsGetResponse();
+        if (request == null) {
+            request = new FriendsGetRequest();
+            request.addParam(FriendsGetRequest.USER_ID, String.valueOf(userId));
         }
-        else {
-            friendAdapter.addAll(sUserList);
-        }
+        Intent intent = new Intent(this, RequestService.class);
+        intent.putExtra(AppSettings.VkIntent.EXTRA_REQUEST, request);
+        intent.putExtra(AppSettings.VkIntent.EXTRA_RESPONSE, response);
+        return intent;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        broadcastManager.registerReceiver(friendsReceiver,
+                new IntentFilter(AppSettings.VkIntent.ACTION_RESPONSE + FriendsGetResponse.class.getSimpleName()));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        broadcastManager.unregisterReceiver(friendsReceiver);
     }
 
     @Override
@@ -81,19 +117,8 @@ public class FriendActivity extends ActionBarActivity {
 
     public static final class FriendAdapter extends ArrayAdapter<User> {
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .writeDebugLogs() // Remove for release app
-                .build();
-
-
         public FriendAdapter(Context context, List<User> objects) {
             super(context, 0, objects);
-            ImageLoader.getInstance().init(config);
         }
 
         @Override
@@ -116,11 +141,5 @@ public class FriendActivity extends ActionBarActivity {
 
             return convertView;
         }
-    }
-
-    private List<User> getFriends() {
-        IConnection<FriendsgetRequest> connection = new Connection(new FriendsgetRequest());
-        IResponse userList = new FriendsgetResponse(connection.response());
-        return userList.getItems();
     }
 }
