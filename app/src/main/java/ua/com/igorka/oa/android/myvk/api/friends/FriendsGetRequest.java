@@ -1,4 +1,4 @@
-package ua.com.igorka.oa.android.myvk.api.friends1;
+package ua.com.igorka.oa.android.myvk.api.friends;
 
 import android.os.Parcel;
 

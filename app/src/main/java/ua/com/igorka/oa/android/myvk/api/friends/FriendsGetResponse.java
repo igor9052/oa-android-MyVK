@@ -1,4 +1,4 @@
-package ua.com.igorka.oa.android.myvk.api.friends1;
+package ua.com.igorka.oa.android.myvk.api.friends;
 
 import android.os.Parcel;
 
@@ -14,7 +14,7 @@ import ua.com.igorka.oa.android.myvk.data.User;
 /**
  * Created by Igor Kuzmenko on 27.02.2015.
  * Response for friends.get request
- * @see ua.com.igorka.oa.android.myvk.api.friends1.FriendsGetRequest class
+ * @see FriendsGetRequest class
  */
 public class FriendsGetResponse implements IResponse<User>, android.os.Parcelable {
 
