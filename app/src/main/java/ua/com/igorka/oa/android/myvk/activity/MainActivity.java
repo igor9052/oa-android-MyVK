@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import ua.com.igorka.oa.android.myvk.R;
-import ua.com.igorka.oa.android.myvk.helper1.AppSettings;
+import ua.com.igorka.oa.android.myvk.api.helper.AppSettings;
 
 
 public class MainActivity extends Activity {

@@ -1,4 +1,4 @@
-package ua.com.igorka.oa.android.myvk.helper1;
+package ua.com.igorka.oa.android.myvk.api.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

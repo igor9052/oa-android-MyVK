@@ -9,7 +9,7 @@ import ua.com.igorka.oa.android.myvk.api.Connection;
 import ua.com.igorka.oa.android.myvk.api.IConnection;
 import ua.com.igorka.oa.android.myvk.api.IRequest;
 import ua.com.igorka.oa.android.myvk.api.IResponse;
-import ua.com.igorka.oa.android.myvk.helper1.AppSettings;
+import ua.com.igorka.oa.android.myvk.api.helper.AppSettings;
 
 /**
  * Created by Igor Kuzmenko on 03.03.2015.

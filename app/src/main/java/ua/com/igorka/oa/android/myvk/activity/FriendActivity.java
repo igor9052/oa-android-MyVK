@@ -28,7 +28,7 @@ import ua.com.igorka.oa.android.myvk.api.IRequest;
 import ua.com.igorka.oa.android.myvk.api.friends.FriendsGetRequest;
 import ua.com.igorka.oa.android.myvk.api.friends.FriendsGetResponse;
 import ua.com.igorka.oa.android.myvk.data.User;
-import ua.com.igorka.oa.android.myvk.helper1.AppSettings;
+import ua.com.igorka.oa.android.myvk.api.helper.AppSettings;
 import ua.com.igorka.oa.android.myvk.service.RequestService;
 
 

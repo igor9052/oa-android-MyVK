@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import ua.com.igorka.oa.android.myvk.api.Request;
-import ua.com.igorka.oa.android.myvk.helper1.AppSettings;
+import ua.com.igorka.oa.android.myvk.api.helper.AppSettings;
 
 /**
  * Created by Igor Kuzmenko on 04.03.2015.
