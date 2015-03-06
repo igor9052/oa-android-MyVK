@@ -1,4 +1,4 @@
-package ua.com.igorka.oa.android.myvk.api.photos;
+package ua.com.igorka.oa.android.myvk.api.photos1;
 
 import android.os.Parcel;
 import android.util.Log;
@@ -18,7 +18,7 @@ import ua.com.igorka.oa.android.myvk.data.Photo;
 /**
  * Created by Igor Kuzmenko on 04.03.2015.
  * Response for friends.get request
- * @see ua.com.igorka.oa.android.myvk.api.photos.PhotosGetRequest class
+ * @see ua.com.igorka.oa.android.myvk.api.photos1.PhotosGetRequest class
  */
 public class PhotoGetResponse implements IResponse<Photo>, android.os.Parcelable {
 
